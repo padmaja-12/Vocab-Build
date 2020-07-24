@@ -8,7 +8,6 @@ var express         = require("express"),
     bodyParser      = require("body-parser"),
     axios           = require("axios"),
     firebase        = require("firebase/app"),
-    flash           = require("connect-flash");
     firebase        = require("firebase/app");
     methodOverride  = require("method-override"),
     app             = express();
@@ -21,12 +20,7 @@ app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
 app.use(bodyParser.urlencoded({extended: true}));
-app.use(require("cookie-session")({
-    secret: "Once again Rusty wins cutest dog!",
-    resave: false,
-    saveUninitialized: false
-}));
-app.use(flash());
+
 
 var firebaseConfig = {
     apiKey: "AIzaSyCKcUqB4zlgI1_Lm3ERX-OqEt5S88vcLRM",
@@ -43,23 +37,20 @@ var firebaseConfig = {
  
 var user = firebase.auth().currentUser;
 
-
 app.use((req,res,next) => {
     res.locals.currentUser = firebase.auth().currentUser;
-    res.locals.error = req.flash("danger");
-    res.locals.safe  = req.flash("safe");
     next();
-});
+})
 
 app.get("/",(req,res) => {
     res.render("landing");
     //console.log("Hi");
 });
 
+
 app.get("/:id/home", (req,res) => {
     var user = firebase.auth().currentUser;
     if(user == null){
-        req.flash("danger","Please Login or Signup!!")
         return res.redirect("/");
     }
     let id = req.params.id;
@@ -71,7 +62,6 @@ app.get("/:id/home", (req,res) => {
     })
     .catch(error => {
         console.log(error);
-        req.flash("danger","An error seems to have occured,Please login again!!")
         res.redirect("/");
     })
 });
@@ -92,7 +82,6 @@ app.get("/:id/home/add", (req,res) => {
         res.render("add", {words : word,set:set,id:id});
     })
     .catch(error => {
-        req.flash("danger","Opps You Might Want to try that again")
         res.redirect("/"+ id + "/home/add");
     })
 });
@@ -254,7 +243,6 @@ app.post("/login",(req,res) => {
     firebase.auth().signInWithEmailAndPassword(email, password)
     .then(response => {
         var id = response.user.uid;
-        req.flash("safe","Hi! You have logged in again!!")
        // console.log(response);
         res.redirect("/"+id+"/home");
     })
@@ -264,10 +252,8 @@ app.post("/login",(req,res) => {
         var errorMessage = error.message;
         //console.log(errorMessage);
         if (errorCode === 'auth/wrong-password') {
-            req.flash("danger",errorMessage);
             res.redirect("/login");
           } else {
-              req.flash("danger",errorMessage);
             res.redirect("/signup");
           }
       });
@@ -280,7 +266,6 @@ app.post("/signup", (req,res) => {
     .then(response => {
        //console.log(response);
        var id = response.user.uid;
-       req.flash("safe","Congratulations!!You have created your account successfully!!")
         res.redirect("/"+id+"/home");
     })
     .catch((error) => {
@@ -288,14 +273,12 @@ app.post("/signup", (req,res) => {
         var errorCode = error.code;
         var errorMessage = error.message;
         //console.log(errorMessage)
-        req.flash("danger",errorMessage);
         res.redirect("/signup")
       });
 });
 
 app.get("/logout",(req,res) => {
     firebase.auth().signOut().then(function() {
-        req.flash("safe","You have been logged out successfully!!");
         res.redirect("/");
       }).catch(function(error) {
         console.log(error);
