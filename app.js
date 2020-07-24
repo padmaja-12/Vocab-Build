@@ -18,7 +18,6 @@ var express         = require("express"),
    
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
-app.use(methodOverride("_method"));
 app.use(bodyParser.urlencoded({extended: true}));
 
 
@@ -287,6 +286,6 @@ app.get("/logout",(req,res) => {
 
 
 
-app.listen(8000,() => {
+app.listen(process.env.PORT,() => {
     console.log("Vocabulary-app is up and running on PORT : 8000");
 });
