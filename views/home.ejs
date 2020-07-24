@@ -1,0 +1,39 @@
+<%- include('partials/header',{id : id}); %>
+
+<div class="container">
+  <div class="row text-center" style="display:flex; flex-wrap: wrap;">
+   <div class="card" style="width: 18rem;margin:10px;background-color: #C0C0C0;">
+    <div class="card-body">
+      <h4 class="card-title">Learning Words</h4>
+      <p class="card-text">A set of words you have seen fresh!!</p>
+      <a href="/<%- id %>/home/learning" class="btn btn-lg btn-dark">Tap Here!!</a>
+    </div>
+   </div>
+   <div class="card" style="width: 18rem;margin:10px;background-color: #C0C0C0;">
+    <div class="card-body">
+      <h4 class="card-title">Reviewed Words</h4>
+      <h6 class="card-subtitle mb-2 text-muted"></h6>
+      <p class="card-text">A set of words that you are on your way to master!!!</p>
+      <a href="/<%- id %>/home/review" class="btn btn-lg btn-dark">Tap Here!!</a>
+    </div>
+   </div>
+   <div class="card" style="width: 18rem;margin:10px;background-color: #C0C0C0;">
+    <div class="card-body">
+      <h4 class="card-title">Mastered Words</h4>
+      <h6 class="card-subtitle mb-2 text-muted"></h6>
+      <p class="card-text">A set of words that you have mastered!!!</p>
+      <a href="/<%- id %>/home/mastered" class="btn btn-lg btn-dark">Tap Here!!</a>
+    </div>
+   </div>
+   <% alphabet.forEach(key => { %>
+    <div class="card" style="width: 18rem;margin:10px;background-color: #C0C0C0;">
+        <div class="card-body">
+          <h1 class="card-title"><%= key.toUpperCase() %></h1>
+          <p class="card-text">Make a set of words from the given alphabet!!</p>
+          <a href="/<%- id %>/home/add?set=<%- key %>" class="btn btn-lg btn-dark">Tap Here!!</a>
+        </div>
+       </div> 
+  <% }); %>
+
+
+<%- include('partials/footer'); %>

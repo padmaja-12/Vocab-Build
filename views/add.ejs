@@ -1,0 +1,70 @@
+<%- include('partials/header',{id : id}); %>
+<div class="container" style="text-align: center;margin:10px auto">
+<% if(words.length > 0) { %>
+    <div style="margin:  10px auto;">
+        <% words.forEach(element => {  %>
+            <div class="flip-card container">
+                <div class="flip-card-inner">
+                  <div class="flip-card-front">
+                    <h1><%= element.name %></h1>
+                  </div>
+                  <div class="flip-card-back">
+                    <h3>Meaning : <%= element.meaning %></h3>
+                    <h3>Mnemonics : <%= element.mnemonic %></h3>
+                    <p>Sentence : <%= element.sentence %></p>
+                  </div>
+                </div>
+              </div>
+      <%  }); %>
+    </div>
+<% } else { %>
+    <strong>
+    OOPS YOU HAVEN'T ADDED ANYTHING
+    </strong>
+<%  }  %>
+    <div style="border: 1px solid black;width:100%;border-radius: 20px;text-align: center;margin:10px;">
+        <i class="fa fa-plus-square-o fa-3x" aria-hidden="true" data-toggle="modal" data-target="#myModal"></i>
+    </div>
+</div>
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+  
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">Add A Word!!</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <form action="/<%- id %>/home/add?set=<%- set %>" method="post">
+                <label for="fname">Enter the word : </label>
+                <input type="text"  name="word[name]"><br><br>
+                <label for="lname">Explain the meaning of the word :</label>
+                <input type="text" name="word[meaning]"><br><br>
+                <label for="lname">Add a mnemonic:</label>
+                <input type="text" name="word[mnemonic]"><br><br>
+                <label for="lname">Make a sentence related to the word :</label>
+                <input type="text"  name="word[sentence]"><br><br>
+                <div style="display:flex;justify-content: space-around;">
+                    <div>
+                        <input type="radio" name="word" value="Learning">
+                    <label for="male">New Word</label><br>
+                    </div>
+                    <div>
+                        <input type="radio" name="word" value="Reviewed">
+                    <label for="female">Reviewed Word</label><br>
+                    </div>
+                    <div>
+                        <input type="radio" name="word" value="Mastered">
+                    <label for="other">Mastered Word</label>
+                    </div>   
+                </div> 
+                <input type="submit" class="btn btn-lg btn-success" value="Submit">          
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<%- include('partials/footer'); %>

@@ -1,0 +1,32 @@
+<%- include('partials/header',{id : id}); %>
+
+
+<div class="container" style="text-align: center;margin:10px auto">
+    <% if(words.length > 0) { %>
+        <div style="margin:  10px auto;">
+            <% words.forEach(element => {  %>
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                      <div class="flip-card-front">
+                        <h1><%= element.w.name %></h1>
+                      </div>
+                      <div class="flip-card-back">
+                        <h3>Meaning : <%= element.w.meaning %></h3>
+                        <h3>Mnemonics : <%= element.w.mnemonic %></h3>
+                        <h3>Sentence : <%= element.w.sentence %></h3>
+                        <h3 style="position: relative;">
+                        <a href="/<%- id %>/home/review?index=<%- element.index %>&name=<%- element.w.name %>&meaning=<%- element.w.meaning %>&mnemonic=<%- element.w.mnemonic %>&sentence=<%- element.w.sentence %>" class="btn btn-light">Click if you feel you have mastered this word!!</a>
+                        </h3>
+                      </div>
+                    </div>
+                  </div>
+          <%  }); %>
+        </div>
+        <% } else { %>
+            <strong>
+                SEEMS LIKE YOU HAVEN'T REVIEWED A SINGLE WORD UNTIL NOW!!
+            </strong>
+        <%  }  %>
+    </div>
+
+<%- include('partials/footer'); %>
